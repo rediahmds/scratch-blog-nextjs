@@ -35,6 +35,7 @@ export default function Layout({ children, home }: Props) {
               width={150}
             />
             <h2 className="text-4xl font-semibold">{ownerName}</h2>
+            <h3 className="text-xl font-semibold">Ganteng bet gweh</h3>
           </>
         ) : (
           <>
