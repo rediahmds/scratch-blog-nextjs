@@ -7,21 +7,21 @@ import * as fs from 'fs';
 import * as path from 'path';
 const matter = require('gray-matter');
 
-interface postData {
+export interface PostsData {
   id: string;
   title: string;
   date: string;
 }
 
 /**
- * @returns {Array<postData>} post data sorted by latest. Contains id, title, and date (all of them are strings).
+ * @returns {Array<PostsData>} post data sorted by latest. Contains id, title, and date (all of them are strings).
  */
-export default function getSortedPost(): Array<postData> {
+export default function getSortedPost() {
   const postsDirectory = path.join(process.cwd(), 'posts');
   const fileNames = fs.readdirSync(postsDirectory); // array of str (file names)
 
   // Create an array that contains objects of posts data, such is its id, date, and content
-  const allPostsData: Array<postData> = fileNames.map(fileName => {
+  const allPostsData: Array<PostsData> = fileNames.map(fileName => {
     const id = fileName.replace('.md', '');
 
     // to read md contents, use readFile
@@ -38,7 +38,7 @@ export default function getSortedPost(): Array<postData> {
     };
   });
 
-  return allPostsData.sort((a: postData, b: postData) =>
+  return allPostsData.sort((a: PostsData, b: PostsData) =>
     a.date < b.date ? 1 : -1
   );
 }
