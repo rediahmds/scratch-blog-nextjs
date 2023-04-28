@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
 import getSortedPost from '../lib/posts.utils';
+import DateTime from '@/components/DateTime';
 
 export default function Home({
   postMetadata,
@@ -13,22 +14,26 @@ export default function Home({
     id: string;
   }[];
 }) {
-  const ownerDescription = `Hello, I'm Redi Ahmad, a Computer System student who wants to be a software engineer.`;
+  const ownerIntroduction = `Hello, I'm Redi Ahmad, a student who taught himself to be a software engineer.`;
+  const ownerDescription = `I am currently learning front-end web development and will soon expand my skills to include back-end development as well. `;
   return (
     <Layout home>
       <Head>
         <title>Reday Blogs</title>
       </Head>
-      <p>{ownerDescription}</p>
+      <article className="flex flex-col gap-y-5 text-xl">
+        <p>{ownerIntroduction}</p>
+        <p>{ownerDescription}</p>
+      </article>
       <section>
-        <h2>Blogs</h2>
-        <ul>
+        <h2 className="text-3xl font-bold">Blogs</h2>
+        <ul className="flex flex-col gap-y-5 py-5 list-none">
           {postMetadata.map(({ id, date, title }) => (
             <li key={id}>
-              <Link href={`posts/${id}`}>
-                <h2>{title}</h2>
+              <Link href={`posts/${id}`} className="text-blue-500/100">
+                <h2 className="text-xl">{title}</h2>
               </Link>
-              <h3>{date}</h3>
+              <DateTime dateStr={date} home />
             </li>
           ))}
         </ul>

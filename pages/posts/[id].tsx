@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Layout from '@/components/Layout';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { getAllPostIDs, getPostByID } from '@/lib/posts.utils';
+import DateTime from '@/components/DateTime';
 
 export default function Post({
   post,
@@ -14,15 +15,23 @@ export default function Post({
     content: string;
   };
 }) {
+  // Set class of ul, cuz tailwind removes the list style by default
+  const HTMLcontent = post.content.replace(
+    `<ul>`,
+    `<ul class="list-disc ml-8">`
+  );
   return (
     <Layout>
       <Head>
         <title>{post.title}</title>
       </Head>
       <article>
-        <h1>{post.title}</h1>
-        <h4>{post.date}</h4>
-        <main dangerouslySetInnerHTML={{ __html: post.content }} />
+        <h1 className="text-3xl font-bold">{post.title}</h1>
+        <DateTime dateStr={post.date} />
+        <main
+          dangerouslySetInnerHTML={{ __html: HTMLcontent }}
+          className="flex flex-col gap-y-5 py-8 list-disc"
+        />
       </article>
     </Layout>
   );
