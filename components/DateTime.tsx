@@ -11,13 +11,15 @@ export default function DateTime({
 }) {
   const parsedDate = parseISO(dateStr); // Returns date type
   return (
-    <div>
+    <section className="text-lg">
       <time dateTime={dateStr}>{format(parsedDate, 'MMMM d, yyyy')}</time>
       {!home && (
         <div>
-          <span>{`${formatDistanceToNow(parsedDate)} ago`}</span>
+          <span className="text-base text-gray-500">{`Posted ${formatDistanceToNow(
+            parsedDate
+          )} ago`}</span>
         </div>
       )}
-    </div>
+    </section>
   );
 }
