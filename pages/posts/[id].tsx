@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Layout from '@/components/Layout';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { getAllPostIDs, getPostByID } from '@/lib/posts.utils';
+import DateTime from '@/components/DateTime';
 
 export default function Post({
   post,
@@ -21,7 +22,7 @@ export default function Post({
       </Head>
       <article>
         <h1>{post.title}</h1>
-        <h4>{post.date}</h4>
+        <DateTime dateStr={post.date} />
         <main dangerouslySetInnerHTML={{ __html: post.content }} />
       </article>
     </Layout>

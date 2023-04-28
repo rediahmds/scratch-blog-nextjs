@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
 import getSortedPost from '../lib/posts.utils';
+import DateTime from '@/components/DateTime';
 
 export default function Home({
   postMetadata,
@@ -28,7 +29,7 @@ export default function Home({
               <Link href={`posts/${id}`}>
                 <h2>{title}</h2>
               </Link>
-              <h3>{date}</h3>
+              <DateTime dateStr={date} home />
             </li>
           ))}
         </ul>
