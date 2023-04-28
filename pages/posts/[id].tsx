@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Layout from '@/components/Layout';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { getAllPostIDs, getPostByID } from '@/lib/posts.utils';
 
 export default function Post({
@@ -27,7 +28,7 @@ export default function Post({
   );
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   // An array of nested object. The array looks like this [{ params: { id: <id> } }]
   // Each of that id represent individual routes /posts/<id>
   const paths = getAllPostIDs();
@@ -37,15 +38,15 @@ export async function getStaticPaths() {
     paths,
     fallback: false,
   };
-}
+};
 
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   // Fetch necessary data for the blog post using params.id
-  const post = await getPostByID(params.id);
+  const post = await getPostByID(params?.id as string);
 
   return {
     props: {
       post,
     },
   };
-}
+};

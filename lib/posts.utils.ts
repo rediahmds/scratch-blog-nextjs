@@ -9,23 +9,17 @@ import remarkHtml from 'remark-html';
 import { remark } from 'remark';
 const matter = require('gray-matter');
 
-export interface PostsData {
-  id: string;
-  title: string;
-  date: string;
-}
-
 const getPostsDirectory = () => path.join(process.cwd(), 'posts');
 
 /**
- * @returns {Array<PostsData>} post data sorted by latest. Contains id, title, and date (all of them are strings).
+ * @returns {Array<object>} post data sorted by latest. Contains id, title, and date (all of them are strings).
  */
 export default function getSortedPost() {
   const postsDirectory = getPostsDirectory();
   const fileNames = fs.readdirSync(postsDirectory); // array of str (file names)
 
   // Create an array that contains objects of posts data, such is its id, date, and content
-  const allPostsData: Array<PostsData> = fileNames.map(fileName => {
+  const allPostsData = fileNames.map(fileName => {
     const id = fileName.replace('.md', '');
 
     // to read md contents, use readFile
@@ -33,7 +27,13 @@ export default function getSortedPost() {
     const mdContent = fs.readFileSync(mdPath, 'utf-8'); // read the md file
 
     // to parse md content the right way, use gray matter
-    const parsedMdContent = matter(mdContent);
+    const parsedMdContent: {
+      data: {
+        date: string;
+        title: string;
+      };
+      content: string;
+    } = matter(mdContent);
     const postMetadata = parsedMdContent.data;
 
     return {
@@ -42,9 +42,7 @@ export default function getSortedPost() {
     };
   });
 
-  return allPostsData.sort((a: PostsData, b: PostsData) =>
-    a.date < b.date ? 1 : -1
-  );
+  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 export function getAllPostIDs() {
@@ -68,17 +66,24 @@ export function getAllPostIDs() {
 }
 
 export async function getPostByID(id: string) {
+  // Get specific post using file name
   const postFullPath = path.join(getPostsDirectory(), `${id}.md`);
-  const mdFile = fs.readFileSync(postFullPath, 'utf-8');
+  const mdFileContent = fs.readFileSync(postFullPath, 'utf-8');
 
   // read md file content with gray-matter
-  const parsedMd = matter(mdFile);
-  const blogMetadata = parsedMd.data; // such as date and title
+  const parsedMd: {
+    data: {
+      date: string;
+      title: string;
+    };
+    content: string;
+  } = matter(mdFileContent);
+  const blogMetadata = parsedMd.data;
 
   const parsedMdContent = parsedMd.content; // anything in md file but the front matter
   const content = (
     await remark().use(remarkHtml).process(parsedMdContent)
-  ).toString();
+  ).toString(); // HTML-like string
 
   return {
     id,
