@@ -4,7 +4,9 @@ import React, { ReactNode } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
+import { Inter } from 'next/font/google';
 
+const inter = Inter({ subsets: ['latin'] });
 const ownerName = 'Redi Ahmad';
 interface Props {
   children?: ReactNode;
@@ -18,7 +20,7 @@ export default function Layout({ children, home }: Props) {
     <div
       className={`flex flex-col items-center text-black mx-64 ${
         home ? 'my-20' : 'my-16'
-      }`}
+      } ${inter.className}`}
     >
       <Head>
         {/* METADATA */}
