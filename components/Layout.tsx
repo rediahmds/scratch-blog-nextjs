@@ -6,7 +6,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 const ownerName = 'Redi Ahmad';
-
 interface Props {
   children?: ReactNode;
   home?: boolean;
@@ -16,7 +15,11 @@ export default function Layout({ children, home }: Props) {
   const profilePicturePath = '/images/profile.png';
 
   return (
-    <div className={`flex flex-col items-center text-black mx-64`}>
+    <div
+      className={`flex flex-col items-center text-black mx-64 ${
+        home ? 'my-20' : 'my-16'
+      }`}
+    >
       <Head>
         {/* METADATA */}
         <title>{ownerName}</title>
@@ -34,8 +37,7 @@ export default function Layout({ children, home }: Props) {
               height={150}
               width={150}
             />
-            <h2 className="text-4xl font-semibold">{ownerName}</h2>
-            <h3 className="text-xl font-semibold">Ganteng bet gweh</h3>
+            <h2 className="text-4xl font-bold">{ownerName}</h2>
           </>
         ) : (
           <>
@@ -46,7 +48,7 @@ export default function Layout({ children, home }: Props) {
               height={100}
               width={100}
             />
-            <h2 className="text-3xl font-semibold">{ownerName}</h2>
+            <h2 className="text-2xl font-semibold">{ownerName}</h2>
           </>
         )}
       </header>
